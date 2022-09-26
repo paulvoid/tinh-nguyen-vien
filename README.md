@@ -1,8 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Đây là dự án bài tập Trang web hoặc ứng dụng đăng ký và điểm danh tình nguyện viên
+## Bắt đầu thôi
 
-## Getting Started
-
-First, run the development server:
+Đầu tiên, bạn cần cài đặt [Node.js](https://nodejs.org/en/).
+Và mở cmd chạy npm install để cài đặt các thư viện cần thiết.
+Sau đó chạy npm run dev để khởi động server.
 
 ```bash
 npm run dev
@@ -10,25 +11,22 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mở [http://localhost:3000](http://localhost:3000) trên trình duyệt để xem kết quả.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Yêu cầu bài tập
+Giao diện khách:
+- [ ] Đăng ký làm tình nguyện viên (sau khi đăng ký sẽ được cấp 1 mã định danh)
+- [ ] Đăng nhập bằng mã định danh
+- [ ] Danh sách các hoạt động sắp tổ chức/đang tổ chức/đã tổ chức
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Giao diện tình nguyện viên:
+- [ ] Thông tin cá nhân
+- [ ] Danh sách các hoạt động đã tham gia
+- [ ] Đăng ký tham gia hoạt động
+- [ ] Đăng xuất
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Giao diện quản trị viên:
+- [ ] Thêm, sửa, xóa hoạt động
+- [ ] Tra cứu thông tin tình nguyện viên
+- [ ] Điểm danh tình nguyện viên bằng máy quét mã vạch khi tổ chức chương trình
+- [ ] Xuất danh sách theo chương trình hoặc theo tình nguyện viên
