@@ -1,15 +1,25 @@
+# Giới thiệu
 Đây là dự án bài tập Trang web hoặc ứng dụng đăng ký và điểm danh tình nguyện viên
+- Được viết bằng TypeScript và ReactJS
+- Dùng framework NextJS
+- Có thể sẽ dùng ElectronJS để tạo ứng dụng desktop
 ## Bắt đầu thôi
 
 Đầu tiên, bạn cần cài đặt [Node.js](https://nodejs.org/en/).
-Và mở cmd chạy npm install để cài đặt các thư viện cần thiết.
-Sau đó chạy npm run dev để khởi động server.
+Và mở cmd chạy :
+```bash
+npm install
+```
+để cài đặt các thư viện cần thiết.
+
+Sau đó chạy:
 
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+để khởi động server
 
 Mở [http://localhost:3000](http://localhost:3000) trên trình duyệt để xem kết quả.
 
