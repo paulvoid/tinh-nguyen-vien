@@ -1,0 +1,14 @@
+$paul-void: #3282b8;
+$paul-void-invert: #e6e6e6;
+$grey-dark: #333333;
+$grey-dark-invert: #cccccc;
+
+$navbar-item-img-max-height: 6.25rem;
+$primary: $paul-void;
+$primary-invert: $paul-void-invert;
+$secondary: $grey-dark;
+$secondary-invert: $grey-dark-invert;
+$custom-colors: (
+"secondary": ($secondary, $secondary-invert),
+);
+@import '~bulma/bulma';
