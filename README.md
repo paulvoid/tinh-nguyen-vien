@@ -1,8 +1,8 @@
 # Giới thiệu
 Đây là dự án bài tập Trang web hoặc ứng dụng đăng ký và điểm danh tình nguyện viên
-- Được viết bằng TypeScript và ReactJS
-- Dùng framework NextJS
-- Có thể sẽ dùng ElectronJS để tạo ứng dụng desktop
+- Được viết bằng TypeScript và ReactJS.
+- Dùng framework NextJS.
+- Có thể sẽ dùng ElectronJS để tạo ứng dụng desktop.
 ## Bắt đầu thôi
 
 Đầu tiên, bạn cần cài đặt [Node.js](https://nodejs.org/en/).
@@ -40,3 +40,17 @@ Giao diện quản trị viên:
 - [ ] Tra cứu thông tin tình nguyện viên
 - [ ] Điểm danh tình nguyện viên bằng máy quét mã vạch khi tổ chức chương trình
 - [ ] Xuất danh sách theo chương trình hoặc theo tình nguyện viên
+
+## Cấu trúc dự án
+- `components` chứa các component dùng chung
+    - `Layout.tsx` là layout chung của trang web
+    - `MyNav.tsx` là thanh menu chung của trang web
+- `pages` chứa các trang
+    - `api` chứa các API
+    - `admin` chứa các trang quản trị viên
+    - `volunteer` chứa các trang tình nguyện viên
+    - `index.tsx` trang chủ
+    - `login.tsx` trang đăng nhập
+    - `register.tsx` trang đăng ký
+- `public` chứa các file tĩnh
+- `styles` chứa các file css
