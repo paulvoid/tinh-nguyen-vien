@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,42 +6,46 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-// tình nguyện viên
-model User {
-    id        Int      @id @default(autoincrement())
-    name      String
-    email     String  @unique
-    indentify String  @unique
-    role      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
-}
-// chủ đề
-model Topic {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
-}
-// hoạt động
-model Activity {
-    id        Int      @id @default(autoincrement())
-    topicId   Int
-    topic     Topic    @relation(fields: [topicId], references: [id])
-    name      String
-    startDate DateTime
-    endDate   DateTime
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
-}
-// tham gia hoạt động
-model JoinActivity {
-    id        Int      @id @default(autoincrement())
-    userId    Int
-    user      User     @relation(fields: [userId], references: [id])
-    activityId Int
-    activity  Activity @relation(fields: [activityId], references: [id])
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
+
+model activity {
+  id        Int      @id @default(autoincrement())
+  topicId   Int
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([topicId], map: "Activity_topicId_fkey")
 }
 
+model joinactivity {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  activityId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+
+  @@index([activityId], map: "JoinActivity_activityId_fkey")
+  @@index([userId], map: "JoinActivity_userId_fkey")
+}
+
+model topic {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  userId    Int?
+
+  @@index([userId], map: "Topic_userId_fkey")
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique(map: "User_email_key")
+  indentify String   @unique(map: "User_indentify_key")
+  role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
