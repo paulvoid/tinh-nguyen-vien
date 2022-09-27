@@ -41,11 +41,12 @@ model topic {
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique(map: "User_email_key")
-  indentify String   @unique(map: "User_indentify_key")
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique(map: "User_email_key")
+  identifier String
+  role       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  password   String
 }

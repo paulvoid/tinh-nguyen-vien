@@ -9,6 +9,8 @@
 Và mở cmd chạy :
 ```bash
 npm install
+npm install -g yarn
+yarn install
 ```
 để cài đặt các thư viện cần thiết.
 
@@ -23,14 +25,20 @@ yarn dev
 
 Mở [http://localhost:3000](http://localhost:3000) trên trình duyệt để xem kết quả.
 
+Sau đó cài đặt database
+```bash
+prisma migrate dev --name init
+prisma db pull
+prisma generate
+```
+Là đã có database sài rồi đó. À quên nhớ bật wamp hoặc sài xamp.
 ## Yêu cầu bài tập
 Giao diện khách:
 - [ ] Đăng ký làm tình nguyện viên (sau khi đăng ký sẽ được cấp 1 mã định danh)
-- [ ] Đăng nhập bằng mã định danh
+- [ ] Đăng nhập
 - [ ] Danh sách các hoạt động sắp tổ chức/đang tổ chức/đã tổ chức
 
 Giao diện tình nguyện viên:
-- [ ] Thông tin cá nhân
 - [ ] Danh sách các hoạt động đã tham gia
 - [ ] Đăng ký tham gia hoạt động
 - [ ] Đăng xuất
@@ -47,10 +55,19 @@ Giao diện quản trị viên:
     - `MyNav.tsx` là thanh menu chung của trang web
 - `pages` chứa các trang
     - `api` chứa các API
+      - `login.ts` API đăng nhập
+      - `register.ts` API đăng ký
     - `admin` chứa các trang quản trị viên
     - `volunteer` chứa các trang tình nguyện viên
     - `index.tsx` trang chủ
     - `login.tsx` trang đăng nhập
     - `register.tsx` trang đăng ký
+- `prisma` chứa các file cấu hình database
+    - `schema.prisma` chứa các bảng trong database
+    - `migrations` chứa các file migration
 - `public` chứa các file tĩnh
 - `styles` chứa các file css
+
+## Change log
+- 2022-09-26: Tạo dự án, set up NextJS, Prisma. Và tạo các component chung, thiết kế và tạo database.
+- 2022-09-27: Tạo api đăng nhập, đăng ký.
