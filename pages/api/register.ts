@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import prisma from '../../lib/prisma'
-import {v4 as uuidv4} from 'uuid'
+import {nanoid} from "nanoid";
 import { hash} from 'bcrypt';
 
 export default async function handle(
@@ -9,8 +9,18 @@ export default async function handle(
     ) {
     const { name,password,email } = req.body;
     // generate a random uuid
-    let identifier = uuidv4();
+    let identifier = "TST" + "-" + nanoid(7);
     let passwordHash : string = await hash(password, 10);
+    const alreadyExists = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    if(alreadyExists){
+        res.status(400).json({
+            message: "Người dùng đã tồn tại",
+        })
+    }
     prisma.user.create({
         data: {
             name,
@@ -20,12 +30,15 @@ export default async function handle(
             role: "user",
         }
     }).then((_user) => {
-        res.status(200).json({
-            message: "User created successfully",
-        })
+        if(_user) {
+            res.status(200).json({
+                message: "Người dùng đăng ký thành công",
+            })
+        }
     }).catch((_err) => {
+        console.log(_err);
         res.status(400).json({
-            message: "User not created",
+            message: "Có lỗi xảy ra",
         })
     })
 }
