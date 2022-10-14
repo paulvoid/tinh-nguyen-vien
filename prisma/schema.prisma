@@ -9,14 +9,12 @@ datasource db {
 
 model activity {
   id        Int      @id @default(autoincrement())
-  topicId   Int
   name      String
+  content   String   @db.LongText
   startDate DateTime
   endDate   DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-
-  @@index([topicId], map: "Activity_topicId_fkey")
 }
 
 model joinactivity {
@@ -28,16 +26,6 @@ model joinactivity {
 
   @@index([activityId], map: "JoinActivity_activityId_fkey")
   @@index([userId], map: "JoinActivity_userId_fkey")
-}
-
-model topic {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  userId    Int?
-
-  @@index([userId], map: "Topic_userId_fkey")
 }
 
 model user {

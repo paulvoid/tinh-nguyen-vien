@@ -36,3 +36,11 @@ export async function verifyAuth(req: NextRequest) {
         throw new AuthError('Token không hợp lệ')
     }
 }
+// get the user id from the token
+export async function getUserId(token: string) {
+    const verified = await jwtVerify(
+        token,
+        new TextEncoder().encode(JWT_SECRET_KEY)
+    )
+    return verified.payload.userId as number;
+}
