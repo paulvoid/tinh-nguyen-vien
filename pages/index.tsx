@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import axios from "axios";
+import LandingPage from "../components/Landing/LandingPage";
 
 
 
@@ -7,7 +7,7 @@ const Home: NextPage = () => {
 
     return (
         <>
-
+            <LandingPage />
         </>
     )
 }

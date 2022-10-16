@@ -51,14 +51,15 @@ Giao diện quản trị viên:
 
 ## Cấu trúc dự án
 - `components` chứa các component dùng chung
-    - `Layout.tsx` là layout chung của trang web
-    - `MyNav.tsx` là thanh menu chung của trang web
+  - `Landing` chứa các component dùng cho trang chủ
+  - `Layout.tsx` là layout chung của trang web
+  - `MyNav.tsx` là thanh menu chung của trang web
 - `pages` chứa các trang
     - `api` chứa các API
       - `login.ts` API đăng nhập
       - `register.ts` API đăng ký
     - `admin` chứa các trang quản trị viên
-    - `volunteer` chứa các trang tình nguyện viên
+    - `user` chứa các trang tình nguyện viên
     - `index.tsx` trang chủ
     - `login.tsx` trang đăng nhập
     - `register.tsx` trang đăng ký
@@ -69,5 +70,8 @@ Giao diện quản trị viên:
 - `styles` chứa các file css
 
 ## Change log
-- 2022-09-26: Tạo dự án, set up NextJS, Prisma. Và tạo các component chung, thiết kế và tạo database.
+- 2022-10-15: Tạo landing page
+- 2022-10-11: Middleware cho API.
 - 2022-09-27: Tạo api đăng nhập, đăng ký.
+- 2022-09-26: Tạo dự án, set up NextJS, Prisma. Và tạo các component chung, thiết kế và tạo database.
+
