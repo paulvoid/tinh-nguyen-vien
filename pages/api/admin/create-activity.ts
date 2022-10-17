@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import prisma from "../../../lib/prisma";
 import {getCookie} from "cookies-next";
-import {getUserId} from "../../../lib/auth";
+
 
 export default async function handle(
     req: NextApiRequest,
@@ -12,39 +12,31 @@ export default async function handle(
             message: "Không hỗ trợ phương thức GET",
         })
     }
-    const {id} = req.body;
+    const {name, content, startDate, endDate} = req.body;
+    let createdAt = new Date();
+    let updatedAt = new Date();
     const token = getCookie('token', {req});
     if (!token) {
         res.status(401).json({message: "Không có quyền truy cập"});
         return;
     }
-    const userId = await getUserId(token.toString());
-    const checkJoined = await prisma.joinactivity.findFirst({
-        where: {
-            userId: userId,
-            activityId: id
-        }
-    })
-    if (checkJoined) {
-        res.status(400).json({
-            message: "Bạn đã tham gia hoạt động này",
-        })
-    }
-    prisma.joinactivity.create({
+    prisma.activity.create({
         data: {
-            activityId: Number(id),
-            userId: userId,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            name: name,
+            content: content,
+            startDate: startDate,
+            endDate: endDate,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
         }
-    }).then((_joinActivity) => {
-        if (_joinActivity) {
+    }).then((_activity) => {
+        if (_activity) {
             res.status(200).json({
-                message: "Tham gia hoạt động thành công",
+                message: "Tạo hoạt động thành công",
             })
         } else {
             res.status(400).json({
-                message: "Tham gia hoạt động thất bại",
+                message: "Tạo hoạt động thất bại",
             })
         }
     }).catch((_err) => {
@@ -52,6 +44,5 @@ export default async function handle(
             message: "Có lỗi xảy ra",
         })
     })
-
 
 }
