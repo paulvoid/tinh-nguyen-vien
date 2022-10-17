@@ -8,7 +8,6 @@
 Đầu tiên, bạn cần cài đặt [Node.js](https://nodejs.org/en/).
 Và mở cmd chạy :
 ```bash
-npm install
 npm install -g yarn
 yarn install
 ```
@@ -56,6 +55,8 @@ Giao diện quản trị viên:
   - `MyNav.tsx` là thanh menu chung của trang web
 - `pages` chứa các trang
     - `api` chứa các API
+      - `user` chứa các API liên quan đến tài khoản
+      - `admin` chứa các API liên quan đến quản trị viên
       - `login.ts` API đăng nhập
       - `register.ts` API đăng ký
     - `admin` chứa các trang quản trị viên
