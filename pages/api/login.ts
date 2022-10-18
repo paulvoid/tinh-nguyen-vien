@@ -11,6 +11,10 @@ export default async function handle(
     ) {
     try{
         const { email,password } = req.body;
+        // validate email and password
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Mật khẩu hoặc email không hợp lệ' });
+        }
         const user = await prisma.user.findUnique({
             where: {
                 email: email

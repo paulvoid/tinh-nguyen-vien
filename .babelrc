@@ -8,8 +8,6 @@
       {
         "ssr": true,
         "minify": true,
-        "displayName": false,
-        "fileName": false
       }
     ]
   ]

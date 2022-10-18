@@ -4,8 +4,7 @@ import {checkRoleById, verifyAuth} from "./lib/auth";
 export async function middleware(req: NextRequest) {
     try {
         const userId = await verifyAuth(req);
-        // if role is admin
-        // if url contains admin
+
         if (req.url.includes('admin')) {
             if (await checkRoleById(userId) === 'admin') {
                 return NextResponse.next();

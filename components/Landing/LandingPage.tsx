@@ -3,13 +3,8 @@ import styled from "styled-components";
 import LNav from "./LNav";
 import Link from "next/link";
 import Head from "next/head";
-import MyNav from "../MyNav";
 
-const LandingPage = () => {
-
-
-
-    const Container = styled.div`
+const Container = styled.div`
       display: flex;
       flex-direction: column;
       min-height: 100vh;
@@ -17,7 +12,7 @@ const LandingPage = () => {
 
 // header nav responsive
 
-    const Section = styled.section`
+const Section = styled.section`
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -31,7 +26,7 @@ const LandingPage = () => {
       padding-top: 75px;
       padding-bottom: 75px;
     `;
-    const Row = styled.div`
+const Row = styled.div`
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -43,7 +38,7 @@ const LandingPage = () => {
       }
 
     `;
-    const ColumnHalf = styled.div`
+const ColumnHalf = styled.div`
 
 
       flex: 50%;
@@ -56,11 +51,11 @@ const LandingPage = () => {
         flex: 100%;
       }
     `;
-    const Hero = styled.div`
+const Hero = styled.div`
 
 
     `;
-    const BigText = styled.h1`
+const BigText = styled.h1`
       font-style: normal;
       font-weight: 800;
       font-size: 48px;
@@ -74,8 +69,8 @@ const LandingPage = () => {
       margin-bottom: 32px;
     `;
 
-    // 60% Column
-    const ColumnSixty = styled.div`
+// 60% Column
+const ColumnSixty = styled.div`
       display: block;
       flex-grow: 1;
       flex-shrink: 1;
@@ -86,7 +81,7 @@ const LandingPage = () => {
         flex: 100%;
       }
     `;
-    const ColumnForty = styled.div`
+const ColumnForty = styled.div`
       display: block;
       flex-grow: 1;
       flex-shrink: 1;
@@ -97,7 +92,7 @@ const LandingPage = () => {
         flex: 100%;
       }
     `;
-    const ColumnThirty = styled.div`
+const ColumnThirty = styled.div`
       display: block;
       flex-grow: 1;
       flex-shrink: 1;
@@ -108,7 +103,7 @@ const LandingPage = () => {
         flex: 100%;
       }
     `;
-    const Image = styled.img`
+const Image = styled.img`
       display: block;
       height: auto;
       width: 100%;
@@ -120,7 +115,7 @@ const LandingPage = () => {
       z-index: 1000;
 
     `;
-    const SmallText = styled.div`
+const SmallText = styled.div`
       font-family: 'Inter', monospace;
       font-size: 18px;
       line-height: 1.6;
@@ -133,10 +128,10 @@ const LandingPage = () => {
       }
       /* or 32px */
     `;
-    // blue spare
+// blue spare
 
-    // Join us
-    const JoinUsButton = styled.button`
+// Join us
+const JoinUsButton = styled.button`
       background: #3282B8;
       border-radius: 10px;
       border: none;
@@ -151,8 +146,8 @@ const LandingPage = () => {
       height: 60px;
 
     `;
-    // More info
-    const MoreInfoButton = styled.button`
+// More info
+const MoreInfoButton = styled.button`
       background: #fff;
       border-radius: 10px;
       border: 2px solid #3282B8;
@@ -172,12 +167,12 @@ const LandingPage = () => {
         color: #fff;
       }
     `;
-    const Center = styled.div`
+const Center = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
     `;
-
+export default function LandingPage(){
 
     return (
         <>
@@ -261,5 +256,3 @@ const LandingPage = () => {
         </>
     );
 }
-
-export default LandingPage;
