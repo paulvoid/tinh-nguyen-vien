@@ -71,6 +71,7 @@ Giao diện quản trị viên:
 - `styles` chứa các file css
 
 ## Change log
+- 2022-10-18: ReduxToolkit, Login Page, Register Page đã được thêm vào
 - 2022-10-15: Tạo landing page
 - 2022-10-11: Middleware cho API.
 - 2022-09-27: Tạo api đăng nhập, đăng ký.
