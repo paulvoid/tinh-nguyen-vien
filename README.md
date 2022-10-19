@@ -51,8 +51,6 @@ Giao diện quản trị viên:
 ## Cấu trúc dự án
 - `components` chứa các component dùng chung
   - `Landing` chứa các component dùng cho trang chủ
-  - `Layout.tsx` là layout chung của trang web
-  - `MyNav.tsx` là thanh menu chung của trang web
 - `pages` chứa các trang
     - `api` chứa các API
       - `user` chứa các API liên quan đến tài khoản

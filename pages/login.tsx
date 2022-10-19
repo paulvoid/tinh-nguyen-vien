@@ -27,7 +27,7 @@ export default function Login() {
   ) as boolean;
   useEffect(() => {
     if (isLoggedIn) {
-      router.push("/");
+      router.push("/user", undefined, { shallow: true });
     }
   }, [isLoggedIn, router]);
   
@@ -56,7 +56,7 @@ export default function Login() {
           showConfirmButton: false,
           timer: 1500,
         });
-        router.push("/dashboard");
+        router.push("/user");
       } else {
         MySwal.fire({
           icon: "error",

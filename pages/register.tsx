@@ -29,7 +29,7 @@ export default function Login() {
   ) as boolean;
   useEffect(() => {
     if (isLoggedIn) {
-      router.push("/");
+      router.push("/user", undefined, { shallow: true });
     }
   }, [isLoggedIn, router]);
   const validationSchema = Yup.object().shape({
@@ -59,7 +59,7 @@ export default function Login() {
           showConfirmButton: false,
           timer: 1500,
         });
-        router.push("/login");
+        router.push("/user");
 
       }
       else
