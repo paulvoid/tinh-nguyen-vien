@@ -2,7 +2,7 @@ import {NextRequest} from "next/server";
 import {nanoid} from 'nanoid'
 import {jwtVerify, SignJWT} from 'jose'
 import {JWT_SECRET_KEY} from "./constants";
-import prisma from "./prisma";
+import axios from "axios";
 
 interface UserJwtPayload {
     jti: string
@@ -12,9 +12,9 @@ interface UserJwtPayload {
 export class AuthError extends Error {
 }
 
-export async function generateJWT(userId: number) {
+export async function generateJWT(userId: number, role: string, name: string) {
     try {
-        return await new SignJWT({'userId': userId})
+        return await new SignJWT({'userId': userId, 'role': role, 'userName': name})
             .setProtectedHeader({alg: 'HS256'})
             .setJti(nanoid())
             .setIssuedAt()
@@ -35,7 +35,7 @@ export async function verifyAuth(req: NextRequest) {
             token,
             new TextEncoder().encode(JWT_SECRET_KEY)
         )
-        return verified.payload.userId as number;
+        return verified.payload.role as string
     } catch (err) {
         throw new AuthError('Token không hợp lệ')
     }
@@ -48,17 +48,4 @@ export async function getUserId(token: string) {
         new TextEncoder().encode(JWT_SECRET_KEY)
     )
     return verified.payload.userId as number;
-}
-
-//
-export async function checkRoleById(userId: number) {
-    const user = await prisma.user.findUnique({
-        where: {
-            id: userId
-        }
-    })
-    if (user) {
-        return user.role;
-    }
-    return null;
 }

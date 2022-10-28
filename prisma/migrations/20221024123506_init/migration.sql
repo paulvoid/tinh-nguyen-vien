@@ -5,6 +5,8 @@ CREATE TABLE `activity` (
     `content` LONGTEXT NOT NULL,
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
+    `location` VARCHAR(191) NOT NULL,
+    `status` ENUM('DRAFT', 'PUBLISHED', 'ARCHIVED') NOT NULL DEFAULT 'PUBLISHED',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -18,6 +20,7 @@ CREATE TABLE `joinactivity` (
     `activityId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `status` ENUM('NOT_YET', 'PRESENT', 'ABSENT', 'LATE') NOT NULL DEFAULT 'NOT_YET',
 
     INDEX `JoinActivity_activityId_fkey`(`activityId`),
     INDEX `JoinActivity_userId_fkey`(`userId`),
@@ -32,6 +35,13 @@ CREATE TABLE `user` (
     `password` VARCHAR(191) NOT NULL,
     `identifier` VARCHAR(191) NOT NULL,
     `role` VARCHAR(191) NOT NULL,
+    `dateOfBirth` DATETIME(3) NOT NULL,
+    `phoneNumber` VARCHAR(191) NOT NULL,
+    `address` VARCHAR(191) NOT NULL,
+    `indentifyCard` VARCHAR(191) NOT NULL,
+    `dateOfIssue` DATETIME(3) NOT NULL,
+    `placeOfIssue` VARCHAR(191) NOT NULL,
+    `unit` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

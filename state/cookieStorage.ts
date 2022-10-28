@@ -12,7 +12,9 @@ export const loadState = () => {
         const auth = {
             isLoggedIn: true,
             user: user,
-            accessToken: serializedState
+            accessToken: serializedState,
+            role: decodedToken.role as string,
+            userName: decodedToken.userName as string
         }
         return auth;
     } catch (err) {

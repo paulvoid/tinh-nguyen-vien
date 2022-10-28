@@ -8,33 +8,56 @@ datasource db {
 }
 
 model activity {
-  id        Int      @id @default(autoincrement())
+  id        Int                @id @default(autoincrement())
   name      String
-  content   String   @db.LongText
+  content   String             @db.LongText
   startDate DateTime
   endDate   DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  location  String
+  status    EnumActivityStatus @default(PUBLISHED)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @default(now())
 }
 
 model joinactivity {
-  id         Int      @id @default(autoincrement())
+  id         Int            @id @default(autoincrement())
   userId     Int
   activityId Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @default(now())
+  status     DiemDanhStatus @default(NOT_YET)
 
   @@index([activityId], map: "JoinActivity_activityId_fkey")
   @@index([userId], map: "JoinActivity_userId_fkey")
 }
 
 model user {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique(map: "User_email_key")
-  password   String
-  identifier String
-  role       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique(map: "User_email_key")
+  password      String
+  identifier    String
+  role          String
+  dateOfBirth   DateTime
+  phoneNumber   String
+  address       String
+  indentifyCard String
+  dateOfIssue   DateTime
+  placeOfIssue  String
+  unit          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+}
+
+enum EnumActivityStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum DiemDanhStatus {
+  NOT_YET
+  PRESENT
+  ABSENT
+  LATE
 }

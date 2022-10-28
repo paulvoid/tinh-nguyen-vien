@@ -1,6 +1,6 @@
 import axios from "axios";
+import {getCookie,setCookie} from "cookies-next";
 
-import { setCookie } from "cookies-next";
 const API_URL = "http://localhost:3000/api/";
 
 class AuthService {
@@ -14,21 +14,27 @@ class AuthService {
         return response
       });
   }
-  register(name: string, email: string, password: string) {
+  register(name: string, email: string, password: string, dateOfBirth: string, phoneNumber: string, address: string, indentifyCard: string, dateOfIssue: string, placeOfIssue: string, unit: string) {
     return axios
       .post(API_URL + "register", {
         name,
         email,
         password,
+        dateOfBirth,
+        phoneNumber,
+        address,
+        indentifyCard,
+        dateOfIssue,
+        placeOfIssue,
+        unit
       })
       .then((response) => {
         return response
       });
   }
   logout() {
-    return axios.get(API_URL + "user/logout").then((response) => {
-      return response
-    });
+    const token = getCookie('token');
+    setCookie('token', '', {maxAge: 0});
   }
 }
 export default new AuthService();

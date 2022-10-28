@@ -26,12 +26,15 @@ export default async function handle(
             })
         }else {
             const passwordMatch = await compare(password, user.password);
-            const jwt = await generateJWT(user.id);
+            const jwt = await generateJWT(user.id, user.role, user.name);
             if(passwordMatch){
                 setCookie('token', jwt, { req, res, maxAge: 60 * 60 * 24 });
                 res.status(200).json({
                     message: "Đăng nhập thành công",
-                    user: user
+                    user: user.id,
+                    accessToken: jwt,
+                    role: user.role,
+                    userName: user.name
                 })
             }else {
                 res.status(400).json({

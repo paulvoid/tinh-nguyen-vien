@@ -33,9 +33,10 @@ prisma generate
 Là đã có database sài rồi đó. À quên nhớ bật wamp hoặc sài xamp.
 ## Yêu cầu bài tập
 Giao diện khách:
-- [ ] Đăng ký làm tình nguyện viên (sau khi đăng ký sẽ được cấp 1 mã định danh)
-- [ ] Đăng nhập
-- [ ] Danh sách các hoạt động sắp tổ chức/đang tổ chức/đã tổ chức
+- [x] Đăng ký làm tình nguyện viên (sau khi đăng ký sẽ được cấp 1 mã định danh)
+  - [ ] Họ tên, cmnd ( ngày cấp , nơi cấp), số điện thoại, đơn vị, địa chỉ liên hệ, email
+- [x] Đăng nhập
+- [x] Danh sách các hoạt động sắp tổ chức/đang tổ chức/đã tổ chức
 
 Giao diện tình nguyện viên:
 - [ ] Danh sách các hoạt động đã tham gia
