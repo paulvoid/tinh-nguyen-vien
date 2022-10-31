@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import prisma from "../../../lib/prisma";
+import prisma from '../../lib/prisma'
 import {getCookie} from "cookies-next";
-
+import {Buffer} from "buffer";
 
 export default async function handle(
     req: NextApiRequest,
@@ -12,34 +12,41 @@ export default async function handle(
             message: "Không hỗ trợ phương thức GET",
         })
     }
-    const {id} = req.body;
-    const token = getCookie('token', {req});
-    if (!token) {
-        res.status(401).json({message: "Không có quyền truy cập"});
-        return;
-    }
-    prisma.activity.update({
+    const {slug} = req.body;
+
+    prisma.activity.findFirst({
         where: {
-            id: Number(id)
+            AND: [
+                {
+                    slug: slug
+                },
+                {
+                    status: "PUBLISHED"
+                }
+            ]
         },
-        data: {
-            status: "ARCHIVED"
+        select: {
+            id: true,
+            name: true,
+            startDate: true,
+            endDate: true,
+            status: true,
+            slug: true,
         }
     }).then((_activity) => {
         if (_activity) {
             res.status(200).json({
-                message: "Xóa hoạt động thành công",
+                message: "Lấy hoạt động thành công",
+                activity: _activity
             })
         } else {
             res.status(400).json({
-                message: "Xóa hoạt động thất bại",
+                message: "Lấy hoạt động thất bại",
             })
         }
-
     }).catch((_err) => {
         res.status(400).json({
             message: "Có lỗi xảy ra",
         })
-        console.log(_err);
-    })
+    });
 }

@@ -1,6 +1,28 @@
-import {Badge, Box, chakra, Circle, Flex, Icon, Image, Tooltip, useColorModeValue,} from '@chakra-ui/react';
+import {
+    Badge,
+    Box,
+    Button,
+    chakra,
+    Circle,
+    Flex,
+    Icon,
+    Image,
+    Tooltip,
+    useColorModeValue,
+    useToast,
+} from '@chakra-ui/react';
 import {MdFavoriteBorder, MdOutlinePeopleOutline} from "react-icons/md";
 import React from "react";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+} from '@chakra-ui/react'
+import axios from "axios";
 
 const data = {
     isNew: true,
@@ -24,9 +46,58 @@ const minifyNumber = (num: number) => {
 }
 
 
-function ActivityPost() {
+function ActivityPost({isNew, imageURL, name, location, startTime, followers, activityId}) {
+    const [isOpen, setIsOpen] = React.useState(false)
+    const toast = useToast()
+    const joinButton = async () => {
+        axios.post("http://localhost:3000/api/user/join-activity", {id: activityId})
+            .then((res) => {
+                if (res.status === 200) {
+                    toast({
+                        title: "Tham gia thành công",
+                        description: "Bạn đã đăng ký tham gia hoạt động thành công",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                }
+            }).catch((err) => {
+                toast({
+                    title: "Tham gia thất bại",
+                    description: err.response.data.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                })
+            })
+        }
+
+
     return (
+
         <Flex p={25} w="full" alignItems="center" justifyContent="center">
+            <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                <ModalOverlay/>
+                <ModalContent>
+                    <ModalHeader>Tham gia sự kiện</ModalHeader>
+                    <ModalCloseButton/>
+                    <ModalBody>
+                        <p>Bạn có muốn tham gia sự kiện này không?</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="blue" mr={3} onClick={() => {
+                            joinButton()
+                            setIsOpen(false)
+                        }}>
+                            Tham gia
+                        </Button>
+                        <Button onClick={() => setIsOpen(false)}>Hủy</Button>
+
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
+
             <Box
                 bg={useColorModeValue('white', 'gray.800')}
                 maxW="sm"
@@ -34,7 +105,7 @@ function ActivityPost() {
                 rounded="lg"
                 shadow="lg"
                 position="relative">
-                {data.isNew && (
+                {isNew && (
                     <Circle
                         size="10px"
                         position="absolute"
@@ -45,15 +116,15 @@ function ActivityPost() {
                 )}
 
                 <Image
-                    src={data.imageURL}
-                    alt={`Picture of ${data.name}`}
+                    src={imageURL}
+                    alt={`Picture of ${name}`}
                     roundedTop="lg"
                 />
 
                 <Box p="6">
                     <Flex mt="1" justifyContent="space-between" alignContent="center">
                         <Box display="flex" alignItems="baseline">
-                            {data.isNew && (
+                            {isNew && (
                                 <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
                                     New
                                 </Badge>
@@ -65,9 +136,10 @@ function ActivityPost() {
                             placement={'top'}
                             color={'gray.800'}
                             fontSize={'1.2em'}>
-                            <chakra.a href={'#'} display={'flex'}>
+                            <Button display={'flex'} bg={'white'} rounded={'full'} p={2}
+                                    _hover={{bg: 'gray.100'}} onClick={() => setIsOpen(true)}>
                                 <Icon as={MdFavoriteBorder} h={7} w={7} alignSelf={'center'}/>
-                            </chakra.a>
+                            </Button>
                         </Tooltip>
                     </Flex>
                     <Flex mt="1" justifyContent="space-between" alignContent="center">
@@ -77,7 +149,7 @@ function ActivityPost() {
                             as="h4"
                             lineHeight="tight"
                             textOverflow={"ellipsis"}>
-                            {data.name}
+                            {name}
                         </Box>
 
                     </Flex>
@@ -85,7 +157,7 @@ function ActivityPost() {
                     {//Sat, Dec 10, 10:00 AM
                     }
                     <Box as="span" color="red.500" fontWeight={"bold"} fontSize="sm">
-                        {new Date(data.startTime).toLocaleString('vi-VN', {
+                        {new Date(startTime).toLocaleString('vi-VN', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: '2-digit',
@@ -98,7 +170,7 @@ function ActivityPost() {
                     <Flex justifyContent="space-between" alignContent="center">
                         <Box fontSize="xl" color={useColorModeValue('gray.800', 'white')}>
 
-                            {data.organizer}
+                            {location}
                         </Box>
 
 
@@ -107,7 +179,7 @@ function ActivityPost() {
                         <Box as="span" color="gray.600" fontSize="md">
                             <Icon as={MdOutlinePeopleOutline} alignSelf={'center'}/>
                         </Box>
-                        {minifyNumber(data.followers)} người tham gia
+                        {minifyNumber(followers)} người tham gia
                     </Box>
                 </Box>
             </Box>

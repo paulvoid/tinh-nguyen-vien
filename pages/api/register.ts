@@ -19,17 +19,22 @@ export default async function handle(
         placeOfIssue,
         unit
     } = req.body;
+    console.log("gg");
     let dateOfBirthDate = new Date(dateOfBirth);
     let dateOfIssueDate = new Date(dateOfIssue);
     // generate a random uuid
     let identifier = "TST" + "-" + nanoid(7);
-    while (await prisma.user.findMany({
+    // check indentifier
+    let checkIdentifier = await prisma.user.findFirst({
         where: {
             identifier: identifier
+
         }
-    })) {
+    });
+    if (checkIdentifier) {
         identifier = "TST" + "-" + nanoid(7);
     }
+
 
     let passwordHash: string = await hash(password, 10);
     const alreadyExists = await prisma.user.findUnique({

@@ -38,14 +38,12 @@ import {useForm} from "react-hook-form";
 function Dashboard({data}: any) {
     const router = useRouter();
     const toast = useToast();
-    const isLoggedIn = useSelector(
-        (state: any) => state.auth.isLoggedIn
-    ) as boolean;
+    const role = useSelector((state: any) => state.auth.role) as string;
     useEffect(() => {
-        if (!isLoggedIn) {
-            router.push("/login");
+        if (role !== "admin") {
+            router.push("/");
         }
-    }, [isLoggedIn, router]);
+    }, [role, router]);
     const [isAddActivityModalOpen, setIsAddActivityModalOpen] = React.useState(false);
     const [isEditActivityModalOpen, setIsEditActivityModalOpen] = React.useState(false);
     const [propsData, setPropsData] = React.useState(data);
@@ -124,9 +122,11 @@ function Dashboard({data}: any) {
     }
 
     const editActivity = async (data: any) => {
-        const {id, name, startDate, endDate, location} = data;
+        data.preventDefault();
+        const {id, name, startDate, endDate, location} = dataEdit;
+        console.log(data);
         try {
-            const res = await AdminService.updateActivity(id, name, "test", startDate, endDate, location);
+            const res = await AdminService.updateActivity(Number(id), name, "test", startDate, endDate, location);
             if (res.status === 200) {
                 toast({
                     title: "Sửa hoạt động thành công",
@@ -136,6 +136,7 @@ function Dashboard({data}: any) {
                 })
             }
         } catch (error) {
+            console.log(error);
 
         }
     }
@@ -256,9 +257,10 @@ function Dashboard({data}: any) {
                 }}>
                     <ModalOverlay/>
                     <ModalContent>
+                        <form onSubmit={editActivity}>
                         <ModalHeader>Sửa hoạt động</ModalHeader>
                         <ModalCloseButton/>
-                        <ModalBody>
+                        <ModalBody>s
                             <Stack spacing={3}>
                                 {isEditActivityModalOpen && (
                                     <>
@@ -303,11 +305,12 @@ function Dashboard({data}: any) {
                             </Stack>
                         </ModalBody>
                         <ModalFooter>
-                            <Button colorScheme="blue" mr={3}>
+                            <Button colorScheme="blue" mr={3} type="submit">
                                 Sửa
                             </Button>
                             <Button onClick={() => setIsEditActivityModalOpen(false)}>Hủy</Button>
                         </ModalFooter>
+                        </form>
                     </ModalContent>
                 </Modal>
             </Box>

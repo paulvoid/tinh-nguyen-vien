@@ -27,8 +27,9 @@ export default async function handle(
     })
     if (checkJoined) {
         res.status(400).json({
-            message: "Bạn đã tham gia hoạt động này",
+            message: "Bạn đã đăng ký hoạt động này rồi",
         })
+        return;
     }
     prisma.joinactivity.create({
         data: {
@@ -40,17 +41,18 @@ export default async function handle(
     }).then((_joinActivity) => {
         if (_joinActivity) {
             res.status(200).json({
-                message: "Tham gia hoạt động thành công",
+                message: "Đăng ký tham gia thành công",
             })
         } else {
             res.status(400).json({
-                message: "Tham gia hoạt động thất bại",
+                message: "Đăng ký tham gia thất bại",
             })
         }
     }).catch((_err) => {
         res.status(400).json({
             message: "Có lỗi xảy ra",
         })
+        console.log(_err)
     })
 
 

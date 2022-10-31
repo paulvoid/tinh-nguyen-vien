@@ -1,6 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import prisma from "../../../lib/prisma";
 import {getCookie} from "cookies-next";
+import {nanoid} from "nanoid";
 
 
 export default async function handle(
@@ -18,6 +19,18 @@ export default async function handle(
     let updatedAt = new Date();
     let startDateActivity = new Date(startDate);
     let endDateActivity = new Date(endDate);
+    let slug = nanoid(10);
+    prisma.activity.findUnique({
+        where: {
+            slug: slug
+        }
+    }).then((_activity) => {
+        if (_activity) {
+            slug = nanoid(10);
+        }
+    }).catch((_err) => {
+        console.log(_err);
+    })
     const token = getCookie('token', {req});
     if (!token) {
         res.status(401).json({message: "Không có quyền truy cập"});
@@ -27,6 +40,7 @@ export default async function handle(
         data: {
             name: name,
             content: content,
+            slug: slug,
             startDate: startDateActivity,
             endDate: endDateActivity,
             createdAt: createdAt,

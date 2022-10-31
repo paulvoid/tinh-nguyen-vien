@@ -21,14 +21,30 @@ export default async function handle(
     prisma.joinactivity.groupBy({
         by: ['activityId'],
         where: {
-            userId: userId
+            AND: [
+                {
+                    userId: userId
+                },
+                {
+                    status: "PRESENT"
+                }
+            ]
         }
     }).then((_joinActivity) => {
         prisma.activity.findMany({
             where: {
-                id: {
-                    in: _joinActivity.map((item) => item.activityId)
-                }
+                AND: [
+                    {
+                        id: {
+                            in: _joinActivity.map((item) => item.activityId)
+                        }
+
+                    },
+                    {
+                        status: "PUBLISHED"
+                    }
+
+                ]
             }
         }).then((_activity) => {
             res.status(200).json(_activity);

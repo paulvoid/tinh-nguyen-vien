@@ -1,5 +1,5 @@
 import {type NextRequest, NextResponse} from 'next/server'
-import {checkRole, verifyAuth} from "./lib/auth";
+import { verifyAuth} from "./lib/auth";
 
 export async function middleware(req: NextRequest) {
     try {
@@ -15,7 +15,6 @@ export async function middleware(req: NextRequest) {
     } catch (e) {
         console.log(e);
     }
-    console.log("ROLE: " + "USER")
     return NextResponse.redirect(new URL('/login', req.url));
 
 }

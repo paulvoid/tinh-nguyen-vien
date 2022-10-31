@@ -99,7 +99,9 @@ export default function Login() {
     const submitRegister = async (data: any) => {
         const {name, email, password, dateOfBirth, phoneNumber, address, indentifyCard, dateOfIssue, placeOfIssue, unit} = data;
         try {
+            console.log("gg")
             const res = await authService.register(name, email, password, dateOfBirth, phoneNumber, address, indentifyCard, dateOfIssue, placeOfIssue, unit);
+
             if (res.status === 200) {
                 MySwal.fire({
                     icon: "success",
