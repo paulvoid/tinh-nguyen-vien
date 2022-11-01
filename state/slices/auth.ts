@@ -30,6 +30,7 @@ const authSlice = createSlice({
         setUserInfo: (state, action) => {
             state.user = action.payload.user
             state.role = action.payload.role
+            state.accessToken = action.payload.accessToken
         }
     }
 });

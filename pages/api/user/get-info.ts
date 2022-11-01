@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import prisma from "../../../lib/prisma";
-import {getCookie} from "cookies-next";
+import {generateJWT} from "../../../lib/auth";
 import {getUserId} from "../../../lib/auth";
 
 export default async function handle(
@@ -12,7 +12,10 @@ export default async function handle(
             message: "Không hỗ trợ phương thức POST",
         })
     }
-    const token = getCookie('token', {req});
+    // bearer token
+    let token = req.headers.authorization;
+    // remove bearer
+    token = token?.replace('Bearer ', '');
     if (!token) {
         res.status(401).json({message: "Không có quyền truy cập"});
         return;
@@ -22,17 +25,19 @@ export default async function handle(
         res.status(401).json({message: "Không có quyền truy cập"});
         return;
     }
-    prisma.user.findFirst({
+    return prisma.user.findFirst({
         where: {
             id: userId
         }
-    }).then((_user) => {
+    }).then(async (_user) => {
         if (_user) {
+            const jwt = await generateJWT(_user.id, _user.role, _user.name);
             res.status(200).json({
                 name: _user.name,
                 email: _user.email,
                 identifier: _user.identifier,
                 role: _user.role,
+                accessToken: jwt
 
             })
         }

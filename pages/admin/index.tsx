@@ -26,19 +26,23 @@ import {
     Th,
     Thead,
     Tr,
-    useToast
+    useToast,
+    HStack
 } from "@chakra-ui/react";
 import AdminService from "../../services/admin.service";
 import axios from "axios";
 import * as Yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useForm} from "react-hook-form";
+import {CSVLink, CSVDownload} from "react-csv";
+import {getCookie} from "cookies-next";
 
 // data props
-function Dashboard({data}: any) {
+function Dashboard({data, user}: { data: any, user: any }) {
     const router = useRouter();
     const toast = useToast();
     const role = useSelector((state: any) => state.auth.role) as string;
+    const [Role, setRole] = React.useState(role);
     useEffect(() => {
         if (role !== "admin") {
             router.push("/");
@@ -57,6 +61,7 @@ function Dashboard({data}: any) {
         endDate: string;
         location: string;
     }
+
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -84,6 +89,8 @@ function Dashboard({data}: any) {
         endDate: "",
         location: "",
     });
+    const [PresentPeople, setPresentPeople] = React.useState([]);
+    const [isPresentPeopleModalOpen, setIsPresentPeopleModalOpen] = React.useState(false);
     const {register, handleSubmit, formState} =
         useForm<MyInputTypes>(formOptions);
     const {errors} = formState;
@@ -120,6 +127,16 @@ function Dashboard({data}: any) {
 
         return date.toISOString().slice(0, 16);
     }
+    // array dataCSv
+    const dataCsv = propsData.map((item: any) => {
+        return {
+            id: item.id,
+            name: item.name,
+            startDate: timeToString(item.startDate),
+            endDate: timeToString(item.endDate),
+            location: item.location,
+        }
+    })
 
     const editActivity = async (data: any) => {
         data.preventDefault();
@@ -143,18 +160,24 @@ function Dashboard({data}: any) {
 
 
     return (
-        <SidebarWithHeader>
+        <SidebarWithHeader user={user}>
             <Box w="100%" p={4} bg={"white"} borderRadius={8}>
-                <Flex justify="space-between" align="center">
+                <HStack justify="space-between" align="center">
                     <Box>
                         <Box fontSize="2xl"> Tất cả hoạt động </Box>
                     </Box>
-                    <Box>
+                    <HStack>
                         <Button colorScheme="blue" size="sm" onClick={() => setIsAddActivityModalOpen(true)}>
                             Thêm hoạt động
                         </Button>
-                    </Box>
-                </Flex>
+
+                        <CSVLink data={dataCsv} filename={"data.csv"} separator={";"}>
+                            <Button colorScheme="green" size="sm" ml={2}>
+                                Xuất file
+                            </Button>
+                        </CSVLink>
+                    </HStack>
+                </HStack>
 
                 <TableContainer>
                     <Table variant="simple">
@@ -170,7 +193,7 @@ function Dashboard({data}: any) {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {propsData && propsData.reverse().map((item: any, index: number) => (
+                            {propsData && propsData.map((item: any, index: number) => (
                                 <Tr key={index}>
                                     <Td isNumeric>{item.id}</Td>
                                     <Td>{item.name}</Td>
@@ -183,6 +206,16 @@ function Dashboard({data}: any) {
                                     </Td>
                                     <Td>
                                         <ButtonGroup>
+                                            {// view qr code
+                                            }
+                                            <Button
+                                                colorScheme="blue"
+                                                size="sm"
+                                                onClick={() => {
+                                                    router.push(`/admin/${item.id}`)
+                                                }}>
+                                                Xem QR
+                                            </Button>
                                             <Button colorScheme="blue" size="sm" onClick={() => {
                                                 setDataEdit({
                                                     id: item.id,
@@ -197,6 +230,19 @@ function Dashboard({data}: any) {
                                             </Button>
                                             <Button colorScheme="red" size="sm">
                                                 Xóa
+                                            </Button>
+                                            <Button colorScheme="green" size="sm" onClick={async () => {
+                                                const id = item.id;
+                                                console.log(id);
+                                                const cookie = await getCookie("token");
+                                                const user = await axios.post("http://localhost:3000/api/admin/get-present-people", {
+                                                    id : id as number
+                                                });
+                                                setPresentPeople(user.data.users);
+                                                console.log(PresentPeople);
+                                                setIsPresentPeopleModalOpen(true);
+                                            }}>
+                                                Danh sách có mặt
                                             </Button>
                                         </ButtonGroup>
                                     </Td>
@@ -258,73 +304,123 @@ function Dashboard({data}: any) {
                     <ModalOverlay/>
                     <ModalContent>
                         <form onSubmit={editActivity}>
-                        <ModalHeader>Sửa hoạt động</ModalHeader>
-                        <ModalCloseButton/>
-                        <ModalBody>s
-                            <Stack spacing={3}>
-                                {isEditActivityModalOpen && (
-                                    <>
-                                        <Input type="hidden" value={dataEdit.id}/>
-                                        <FormControl id="name">
-                                            <FormLabel>Tiêu đề</FormLabel>
-                                            <Input type="text" value={dataEdit.name} onChange={(e) => {
-                                                setDataEdit({...dataEdit, name: e.target.value});
-                                            }}/>
-                                            <Text color="red.500">{errors.name?.message}</Text>
-                                        </FormControl>
-                                        <FormControl id="startDate">
-                                            <FormLabel>Thời gian bắt đầu</FormLabel>
-                                            <Input type="datetime-local" value={
-                                                // 2022-10-24T16:10:00.000Z
-                                                dataEdit.startDate
-                                            } onChange={(e) => {
-                                                setDataEdit({...dataEdit, startDate: e.target.value});
-                                            }}/>
-                                            <Text color="red.500">{errors.startDate?.message}</Text>
-                                        </FormControl>
-                                        <FormControl id="endDate">
-                                            <FormLabel>Thời gian kết thúc</FormLabel>
-                                            <Input type="datetime-local" value={
-                                                // 2022-10-24T16:10:00.000Z
-                                                dataEdit.endDate
-                                            } onChange={(e) => setDataEdit({...dataEdit, endDate: e.target.value})}/>
-                                            <Text color="red.500">{errors.endDate?.message}</Text>
-                                        </FormControl>
-                                        <FormControl id="location">
-                                            <FormLabel>Địa điểm</FormLabel>
-                                            <Input type="text" {...register("location")} value={dataEdit.location}
-                                                   onChange={(e) => setDataEdit({
-                                                       ...dataEdit,
-                                                       location: e.target.value
-                                                   })}/>
-                                            <Text color="red.500">{errors.location?.message}</Text>
-                                        </FormControl>
-                                    </>
-                                )}
+                            <ModalHeader>Sửa hoạt động</ModalHeader>
+                            <ModalCloseButton/>
+                            <ModalBody>
+                                <Stack spacing={3}>
+                                    {isEditActivityModalOpen && (
+                                        <>
+                                            <Input type="hidden" value={dataEdit.id}/>
+                                            <FormControl id="name">
+                                                <FormLabel>Tiêu đề</FormLabel>
+                                                <Input type="text" value={dataEdit.name} onChange={(e) => {
+                                                    setDataEdit({...dataEdit, name: e.target.value});
+                                                }}/>
+                                                <Text color="red.500">{errors.name?.message}</Text>
+                                            </FormControl>
+                                            <FormControl id="startDate">
+                                                <FormLabel>Thời gian bắt đầu</FormLabel>
+                                                <Input type="datetime-local" value={
+                                                    // 2022-10-24T16:10:00.000Z
+                                                    dataEdit.startDate
+                                                } onChange={(e) => {
+                                                    setDataEdit({...dataEdit, startDate: e.target.value});
+                                                }}/>
+                                                <Text color="red.500">{errors.startDate?.message}</Text>
+                                            </FormControl>
+                                            <FormControl id="endDate">
+                                                <FormLabel>Thời gian kết thúc</FormLabel>
+                                                <Input type="datetime-local" value={
+                                                    // 2022-10-24T16:10:00.000Z
+                                                    dataEdit.endDate
+                                                } onChange={(e) => setDataEdit({
+                                                    ...dataEdit,
+                                                    endDate: e.target.value
+                                                })}/>
+                                                <Text color="red.500">{errors.endDate?.message}</Text>
+                                            </FormControl>
+                                            <FormControl id="location">
+                                                <FormLabel>Địa điểm</FormLabel>
+                                                <Input type="text" {...register("location")} value={dataEdit.location}
+                                                       onChange={(e) => setDataEdit({
+                                                           ...dataEdit,
+                                                           location: e.target.value
+                                                       })}/>
+                                                <Text color="red.500">{errors.location?.message}</Text>
+                                            </FormControl>
+                                        </>
+                                    )}
 
-                            </Stack>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button colorScheme="blue" mr={3} type="submit">
-                                Sửa
-                            </Button>
-                            <Button onClick={() => setIsEditActivityModalOpen(false)}>Hủy</Button>
-                        </ModalFooter>
+                                </Stack>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button colorScheme="blue" mr={3} type="submit">
+                                    Sửa
+                                </Button>
+                                <Button onClick={() => setIsEditActivityModalOpen(false)}>Hủy</Button>
+                            </ModalFooter>
                         </form>
                     </ModalContent>
                 </Modal>
+                <Modal isOpen={isPresentPeopleModalOpen} onClose={() => setIsPresentPeopleModalOpen(false)} size={"full"}>
+                    <ModalOverlay/>
+                    <ModalContent>
+                        <ModalHeader>Người tham dự</ModalHeader>
+                        <ModalCloseButton/>
+                        <ModalBody>
+                            <TableContainer>
+                                <Table>
+                                    <Thead>
+                                        <Tr>
+                                            <Th>STT</Th>
+                                            <Th>Tên</Th>
+                                            <Th>Địa chỉ</Th>
+                                            <Th>Số điện thoại</Th>
+                                            <Th>Mã định danh</Th>
+                                            <Th>Đơn vị</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {PresentPeople && PresentPeople.map((item, index) => (
+                                            <Tr key={index}>
+                                                <Td>{index + 1}</Td>
+                                                <Td>{item.name}</Td>
+                                                <Td>{item.address}</Td>
+                                                <Td>{item.phoneNumber}</Td>
+                                                <Td>{item.identifier
+                                                }</Td>
+                                                <Td>{item.unit}</Td>
+                                            </Tr>
+                                        ))}
+
+                                    </Tbody>
+                                </Table>
+                            </TableContainer>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={() => setIsPresentPeopleModalOpen(false)}>Đóng</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+
             </Box>
         </SidebarWithHeader>
     );
 }
 
-export async function getStaticProps() {
-
+export async function getServerSideProps(context) {
     const res = await axios.get("http://localhost:3000/api/get-activities");
+    const user = await axios.get("http://localhost:3000/api/user/get-info", {
+        headers: {
+            cookie: context.req.headers.cookie,
+            Authorization: `Bearer ${context.req.cookies.token}`
+        }
+    })
     const data = await res.data;
     return {
         props: {
             data,
+            user: user.data
         }
     }
 }

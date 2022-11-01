@@ -62,15 +62,15 @@ function ActivityPost({isNew, imageURL, name, location, startTime, followers, ac
                     })
                 }
             }).catch((err) => {
-                toast({
-                    title: "Tham gia thất bại",
-                    description: err.response.data.message,
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true,
-                })
+            toast({
+                title: "Tham gia thất bại",
+                description: err.response.data.message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
             })
-        }
+        })
+    }
 
 
     return (
@@ -123,24 +123,29 @@ function ActivityPost({isNew, imageURL, name, location, startTime, followers, ac
 
                 <Box p="6">
                     <Flex mt="1" justifyContent="space-between" alignContent="center">
-                        <Box display="flex" alignItems="baseline">
-                            {isNew && (
-                                <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-                                    New
-                                </Badge>
-                            )}
-                        </Box>
-                        <Tooltip
-                            label="Tham gia sự kiện"
-                            bg="white"
-                            placement={'top'}
-                            color={'gray.800'}
-                            fontSize={'1.2em'}>
-                            <Button display={'flex'} bg={'white'} rounded={'full'} p={2}
-                                    _hover={{bg: 'gray.100'}} onClick={() => setIsOpen(true)}>
-                                <Icon as={MdFavoriteBorder} h={7} w={7} alignSelf={'center'}/>
-                            </Button>
-                        </Tooltip>
+                        {isNew && (
+                            <>
+                                <Box display="flex" alignItems="baseline">
+
+
+                                    <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+                                        New
+                                    </Badge>
+
+                                </Box>
+                                <Tooltip
+                                    label="Tham gia sự kiện"
+                                    bg="white"
+                                    placement={'top'}
+                                    color={'gray.800'}
+                                    fontSize={'1.2em'}>
+                                    <Button display={'flex'} bg={'white'} rounded={'full'} p={2}
+                                            _hover={{bg: 'gray.100'}} onClick={() => setIsOpen(true)}>
+                                        <Icon as={MdFavoriteBorder} h={7} w={7} alignSelf={'center'}/>
+                                    </Button>
+                                </Tooltip>
+                            </>
+                        )}
                     </Flex>
                     <Flex mt="1" justifyContent="space-between" alignContent="center">
                         <Box

@@ -6,9 +6,13 @@ export default async function handle(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
+
     const activities = await prisma.activity.findMany({
         where: {
             status: "PUBLISHED"
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
     // count number of user join activity

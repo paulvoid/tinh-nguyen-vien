@@ -34,20 +34,21 @@ Là đã có database sài rồi đó. À quên nhớ bật wamp hoặc sài xam
 ## Yêu cầu bài tập
 Giao diện khách:
 - [x] Đăng ký làm tình nguyện viên (sau khi đăng ký sẽ được cấp 1 mã định danh)
-  - [ ] Họ tên, cmnd ( ngày cấp , nơi cấp), số điện thoại, đơn vị, địa chỉ liên hệ, email
+  - [x] Họ tên, cmnd ( ngày cấp , nơi cấp), số điện thoại, đơn vị, địa chỉ liên hệ, email
 - [x] Đăng nhập
-- [x] Danh sách các hoạt động sắp tổ chức/đang tổ chức/đã tổ chức
+
 
 Giao diện tình nguyện viên:
-- [ ] Danh sách các hoạt động đã tham gia
-- [ ] Đăng ký tham gia hoạt động
-- [ ] Đăng xuất
+- [x] Danh sách các hoạt động sắp tổ chức/đang tổ chức/đã tổ chức
+- [x] Danh sách các hoạt động đã tham gia
+- [x] Đăng ký tham gia hoạt động
+- [x] Đăng xuất
 
 Giao diện quản trị viên:
-- [ ] Thêm, sửa, xóa hoạt động
-- [ ] Tra cứu thông tin tình nguyện viên
-- [ ] Điểm danh tình nguyện viên bằng máy quét mã vạch khi tổ chức chương trình
-- [ ] Xuất danh sách theo chương trình hoặc theo tình nguyện viên
+- [x] Thêm, sửa, xóa hoạt động
+- [x] Tra cứu thông tin tình nguyện viên
+- [x] Điểm danh tình nguyện viên bằng máy quét mã vạch khi tổ chức chương trình
+- [x] Xuất danh sách theo chương trình hoặc theo tình nguyện viên
 
 ## Cấu trúc dự án
 - `components` chứa các component dùng chung
